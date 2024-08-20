@@ -177,6 +177,9 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 -- map Esc to jk (ZG)
 vim.keymap.set('i', 'jk', '<Esc>')
+vim.keymap.set('n', ',cf', ':let @*=expand("%:p")<CR>', { desc = '[C]opy [F]ile path' })
+vim.keymap.set('n', ',cd', ':cd %:p:h<CR>:pwd<CR>', { desc = '[C]hange [D]irectory to current file' })
+vim.keymap.set('n', ',o', ':cd %:p:h<CR>:pwd<CR>:e %:p:h/', { desc = '[O]pen current directory' })
 
 -- Move to the next buffer
 vim.api.nvim_set_keymap('n', '<leader>bn', ':bnext<CR>', { noremap = true, silent = true })
@@ -240,6 +243,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-fugitive',
   'github/copilot.vim',
   {
     'pmizio/typescript-tools.nvim',
@@ -639,7 +643,7 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = { 'lua_ls', 'rust_analyzer', 'omnisharp' },
+        ensure_installed = { 'lua_ls', 'rust_analyzer', 'omnisharp', 'pyright' },
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
